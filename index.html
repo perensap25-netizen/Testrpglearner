@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101329">
+<meta name="description" content="A mobile RPG that teaches Python through code spells, quests, and crafting.">
+<link rel="manifest" href="manifest.json">
+<title>Spellbound: Codebound RPG</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1022;--panel:#171b35;--panel2:#202748;--line:#343d65;--text:#f3f4ff;--muted:#b2bbdc;--violet:#a78bfa;--cyan:#67e8f9;--gold:#fcd34d;--green:#86efac;--red:#fda4af}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#343060 0,var(--bg) 58%);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+header{max-width:850px;margin:auto;padding:22px 16px 10px}.eyebrow{font-size:.72rem;letter-spacing:.17em;font-weight:800;color:var(--cyan)}h1{font-size:clamp(2rem,8vw,3.1rem);line-height:1.02;margin:8px 0}h1 span{color:var(--violet)}p{margin:.55rem 0}.muted{color:var(--muted)}.shell{max-width:850px;margin:auto;padding:0 12px 36px}
+.topstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.stat,.panel,.quest{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),#12162b);border-radius:16px;padding:12px}.stat strong{display:block;font-size:1.25rem}.stat small{color:var(--muted)}
+nav{display:flex;gap:7px;overflow:auto;position:sticky;top:0;z-index:5;padding:7px 0 10px;background:#0d1022ed}button{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.tab{white-space:nowrap}.tab.active,.primary{background:var(--violet);color:#15122a;border-color:var(--violet);font-weight:800}.screen{display:none}.screen.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.card{border:1px solid var(--line);border-radius:15px;padding:14px;background:var(--panel)}.icon{font-size:1.8rem}.card h3,.panel h3{margin:.25rem 0}.tag{display:inline-block;border-radius:99px;padding:3px 8px;background:#2b3158;color:#dcd9ff;font-size:.75rem}.meter{height:9px;background:#2b3158;border-radius:99px;overflow:hidden}.meter div{height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .2s}.quest{margin:10px 0}.quest.done{border-color:#3c8d70}.quest.locked{opacity:.62}.questhead{display:flex;gap:10px;align-items:flex-start}.questhead .icon{font-size:1.5rem}.questhead h3{margin:0}.questhead p{color:var(--muted);font-size:.9rem}.codebox{background:#080b18;border:1px solid #343d65;border-radius:12px;padding:12px;margin:10px 0;color:#c5fce9;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.choices{display:grid;gap:7px;margin-top:10px}.choices button{text-align:left;white-space:normal}.feedback{min-height:1.5rem;font-weight:700;color:var(--cyan);margin-top:8px}.success{color:var(--green)}.warning{color:var(--gold)}.rune{display:inline-block;border:1px solid #545d8d;background:#262d51;border-radius:8px;padding:5px 8px;margin:3px;font:13px ui-monospace,monospace}.actionrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.note{border-left:3px solid var(--cyan);background:#10272f;padding:10px 12px;border-radius:8px;margin:10px 0}.small{font-size:.87rem}.inventory{display:flex;flex-wrap:wrap;gap:7px}.empty{color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:15px;text-align:center}footer{color:var(--muted);font-size:.82rem;padding:25px 2px}a{color:var(--cyan)}
+@media(min-width:650px){header,.shell{padding-left:22px;padding-right:22px}}
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">A PYTHON LEARNING RPG · MOBILE EDITION</div>
+<h1>Spellbound:<br><span>Codebound</span></h1>
+<p class="muted">The kingdom's magic is broken. Repair it by writing code spells, solving quests, crafting addons, and learning how real programmers think.</p>
+</header>
+<main class="shell">
+<div class="topstats">
+ <div class="stat"><strong id="level">Level 1</strong><small id="rank">Apprentice Coder</small></div>
+ <div class="stat"><strong id="xp">0 XP</strong><small>Experience</small></div>
+ <div class="stat"><strong id="shards">0 ✦</strong><small>Rune shards</small></div>
+</div>
+<div class="panel"><div style="display:flex;justify-content:space-between;gap:10px"><strong>Next level</strong><span id="xpText" class="muted small">0 / 100 XP</span></div><div class="meter" style="margin-top:7px"><div id="xpBar"></div></div></div>
+<nav>
+<button class="tab active" data-screen="map">🗺️ World map</button>
+<button class="tab" data-screen="spellbook">📖 Spellbook</button>
+<button class="tab" data-screen="inventory">🎒 Inventory</button>
+<button class="tab" data-screen="codex">🧭 Real-world path</button>
+</nav>
+
+<section id="map" class="screen active">
+<h2>🗺️ The Shattered Realms</h2>
+<p class="muted">Choose a quest. Every correct solution earns XP and rune shards. Your progress saves on this device.</p>
+<div class="grid">
+ <div class="card"><div class="icon">🌲</div><h3>Whisperwood</h3><p class="muted">Learn variables, strings, and basic output.</p><span class="tag">Python basics</span></div>
+ <div class="card"><div class="icon">🔥</div><h3>Ember Crypt</h3><p class="muted">Use conditions and loops to power ancient traps.</p><span class="tag">Logic</span></div>
+ <div class="card"><div class="icon">🐉</div><h3>Dragon Compiler</h3><p class="muted">Functions, lists, debugging, and boss battles.</p><span class="tag">Problem solving</span></div>
+ <div class="card"><div class="icon">🧪</div><h3>Addon Forge</h3><p class="muted">Design Minecraft Bedrock addon ideas using data and JSON.</p><span class="tag">Game modding</span></div>
+ <div class="card"><div class="icon">🤖</div><h3>Clockwork Citadel</h3><p class="muted">Build a safe agent that observes, plans, and acts.</p><span class="tag">AI agents</span></div>
+ <div class="card"><div class="icon">🛡️</div><h3>Guardian's Lab</h3><p class="muted">Learn ethical security through defensive puzzles.</p><span class="tag">Cybersecurity</span></div>
+</div>
+<h2>Available quests</h2>
+<div id="questList"></div>
+</section>
+
+<section id="spellbook" class="screen">
+<h2>📖 Spellbook</h2><p class="muted">These are the coding runes you will learn to combine. In this game, “casting” means solving a code puzzle—not executing arbitrary code.</p>
+<div class="grid">
+ <div class="card"><span class="rune">print()</span><h3>Echo Rune</h3><p>Displays information. Useful for debugging and showing game messages.</p><div class="codebox">print("Hello, adventurer!")</div></div>
+ <div class="card"><span class="rune">if / else</span><h3>Choice Rune</h3><p>Lets your program choose what happens based on a condition.</p><div class="codebox">if mana >= 10:\n    print("Spell cast!")\nelse:\n    print("Not enough mana")</div></div>
+ <div class="card"><span class="rune">for</span><h3>Repeat Rune</h3><p>Repeats an action for each item or each number in a range.</p><div class="codebox">for damage in range(3):\n    print("Spark!")</div></div>
+ <div class="card"><span class="rune">def</span><h3>Function Rune</h3><p>Packages logic so you can reuse it without rewriting everything.</p><div class="codebox">def heal(hp):\n    return hp + 10</div></div>
+ <div class="card"><span class="rune">{ }</span><h3>Data Rune</h3><p>JSON is common in game configuration and Minecraft Bedrock addon manifests.</p><div class="codebox">{\n  "format_version": 2,\n  "header": {\n    "name": "My First Addon",\n    "uuid": "replace-with-a-unique-uuid"\n  }\n}</div><p class="small muted">Illustrative fragment only; a real manifest needs all required fields and valid unique UUIDs.</p></div>
+ <div class="card"><span class="rune">allowlist</span><h3>Guardian Rune</h3><p>AI agents should only be allowed to use explicitly approved tools and actions.</p><div class="codebox">allowed = ["look", "move"]\nif action in allowed:\n    execute(action)</div></div>
+</div>
+</section>
+
+<section id="inventory" class="screen">
+<h2>🎒 Inventory & character</h2>
+<div class="grid">
+<div class="card"><h3>🧙 Character sheet</h3><p>Class: <strong>Code Mage</strong></p><p>Level: <strong id="charLevel">1</strong></p><p>Quests cleared: <strong id="charDone">0</strong></p><p>Title: <strong id="charTitle">Apprentice Coder</strong></p></div>
+<div class="card"><h3>✨ Rune shards</h3><p id="shardDesc">Earn shards by solving quests. They represent your crafting materials.</p><div class="inventory" id="inventoryItems"></div></div>
+</div>
+<div class="panel" style="margin-top:12px"><h3>Craft a spell badge</h3><p class="muted">Spend 3 shards to craft a badge. This is cosmetic, not a paywall.</p><button id="craft" class="primary">Craft badge · 3 ✦</button><p id="craftMsg" class="feedback"></p><div id="badges" class="inventory"></div></div>
+<div class="actionrow"><button id="export">Export save</button><button id="reset">Reset progress</button></div><p class="small muted">Export downloads a small JSON save file. Reset cannot be undone unless you exported first.</p>
+</section>
+
+<section id="codex" class="screen">
+<h2>🧭 From RPG skills to real projects</h2>
+<div class="quest"><h3>🐍 Run real Python on Android</h3><p>Install a reputable Python IDE from Google Play, such as Pydroid 3, and start with tiny scripts. This web app teaches concepts but does not execute Python code itself. Check app permissions and source before installing.</p></div>
+<div class="quest"><h3>🎮 Make a real game</h3><p>Learn Python fundamentals, then try Pygame on a computer. On Android, use a Python IDE for small scripts; full game-library support can vary by device and environment.</p></div>
+<div class="quest"><h3>🧱 Build a Minecraft Bedrock addon</h3><p>Bedrock addons commonly use JSON manifests, behavior packs, resource packs, and sometimes JavaScript with the Script API. Python is great for generating/validating files, but it is not the main in-game addon scripting language. Work on a copy of your world and back it up first.</p></div>
+<div class="quest"><h3>🤖 Build an AI agent</h3><p>Start with a rule-based agent, then add an LLM. Keep tools restricted, validate inputs, log actions, and require confirmation for destructive actions. Never let an agent run arbitrary shell commands without strong safeguards.</p></div>
+<div class="quest"><h3>🛡️ Learn pentesting legally</h3><p>Practice only in your own lab or with explicit permission. Start with Linux, networking, HTTP, and secure coding. Use intentionally vulnerable local training apps; do not scan random public systems.</p></div>
+<div class="note">The game is offline-friendly and has no account, telemetry, or external API calls. It stores progress in your browser's local storage.</div>
+</section>
+<footer>Spellbound: Codebound RPG · Prototype v1.0 · Built for phone screens. Keep learning, adventurer. Your code may be cursed; your permissions shouldn't be.</footer>
+</main>
+<script>
+const QUESTS=[
+{id:"q1",realm:"Whisperwood",icon:"🌿",title:"The First Echo",skill:"print() and strings",desc:"A sleepy forest spirit needs a greeting spell.",prompt:'Which Python spell prints the text "Hello, world!"?',code:'Choose the correct incantation.',options:['echo("Hello, world!")','print("Hello, world!")','say["Hello, world!"]'],answer:1,success:"The spirit wakes up! print() sends text to the output.",xp:25,shards:1,unlock:null},
+{id:"q2",realm:"Whisperwood",icon:"🧪",title:"Potion of Variables",skill:"Variables",desc:"Store the potion's power before the goblin arrives.",prompt:"Which line stores 50 in a variable named mana?",code:"mana = 50",options:['50 = mana','mana == 50','mana = 50'],answer:2,success:"Correct! = assigns a value. == compares values.",xp:25,shards:1,unlock:"q1"},
+{id:"q3",realm:"Ember Crypt",icon:"🔥",title:"The Locked Flame",skill:"if / else",desc:"The door opens only when you have enough mana.",prompt:"You need 10 mana. Which condition checks whether mana is at least 10?",code:"mana = 12",options:['if mana >= 10:','if mana = 10:','if mana >== 10:'],answer:0,success:"The flame ignites! Conditions let your program make decisions.",xp:35,shards:1,unlock:"q2"},
+{id:"q4",realm:"Ember Crypt",icon:"🔁",title:"Three Sparks",skill:"for loops",desc:"Cast three sparks without writing the same line three times.",prompt:"Which loop repeats three times?",code:"",options:['for i in range(3):','repeat(3) {','for i in 3:'],answer:0,success:"Three sparks! range(3) produces 0, 1, 2.",xp:35,shards:1,unlock:"q3"},
+{id:"q5",realm:"Dragon Compiler",icon:"🐉",title:"Dragon's Healing Function",skill:"functions",desc:"Create a reusable healing spell.",prompt:"Which keyword begins a Python function definition?",code:"",options:['func','def','make'],answer:1,success:"A function is born! Use def to define reusable logic.",xp:45,shards:2,unlock:"q4"},
+{id:"q6",realm:"Dragon Compiler",icon:"🧩",title:"The Bugged Rune",skill:"debugging",desc:"A tiny syntax bug breaks the spell.",prompt:"What is missing from this Python line?",code:'if hp > 0\n    print("Still alive")',options:['A colon : after the condition','A semicolon after hp','Curly braces around print'],answer:0,success:"Bug fixed! Python uses a colon to start an indented block.",xp:45,shards:2,unlock:"q5"},
+{id:"q7",realm:"Addon Forge",icon:"🧱",title:"The Addon Blueprint",skill:"JSON and modding",desc:"The Forge needs a data format it can read.",prompt:"Which is valid JSON for a boolean setting?",code:"",options:['{"enabled": True}','{"enabled": true}','{enabled: true}'],answer:1,success:"Blueprint accepted! JSON uses lowercase true/false/null and quoted keys.",xp:50,shards:2,unlock:"q6"},
+{id:"q8",realm:"Clockwork Citadel",icon:"🤖",title:"The Careful Automaton",skill:"AI agent safety",desc:"Your agent proposes an action. Protect the realm.",prompt:"The agent wants to delete a folder. What should happen?",code:"",options:['Delete immediately; agents know best','Check permissions and ask for confirmation','Hide the action from logs'],answer:1,success:"Safety protocol engaged. Agents need boundaries and oversight.",xp:55,shards:2,unlock:"q7"},
+{id:"q9",realm:"Guardian's Lab",icon:"🛡️",title:"The Ethical Gate",skill:"pentest scope",desc:"A mysterious website appears on the map.",prompt:"When is it okay to run a penetration test?",code:"",options:['Any time, if the target is public','Only with explicit permission and agreed scope','If you use a VPN'],answer:1,success:"The Guardian approves. Permission and scope come before tools.",xp:55,shards:2,unlock:"q8"}
+];
+const STORE="spellbound-codebound-v1";
+let state={xp:0,shards:0,done:[],badges:[],activeQuest:null};
+try{const old=JSON.parse(localStorage.getItem(STORE)||"null");if(old&&typeof old==="object")state={...state,...old}}catch(e){}
+const $=id=>document.getElementById(id);
+function level(){return Math.floor(state.xp/100)+1}
+function title(){const l=level();return l>=7?"Archmage of Code":l>=5?"Rune Engineer":l>=3?"Spell Scripter":"Apprentice Coder"}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){};renderStats()}
+function renderStats(){const l=level(),cur=state.xp%100;$("level").textContent="Level "+l;$("rank").textContent=title();$("xp").textContent=state.xp+" XP";$("shards").textContent=state.shards+" ✦";$("xpText").textContent=cur+" / 100 XP";$("xpBar").style.width=cur+"%";$("charLevel").textContent=l;$("charDone").textContent=state.done.length;$("charTitle").textContent=title();$("inventoryItems").innerHTML=state.shards?Array.from({length:Math.min(state.shards,30)},()=>'<span class="rune">✦ Rune shard</span>').join(""):'<span class="muted">No shards yet. Complete a quest!</span>';$("badges").innerHTML=state.badges.map(b=>'<span class="rune">🏅 '+escapeHtml(b)+'</span>').join("")||'<span class="muted">No badges crafted yet.</span>';const pct=Math.round(state.done.length/QUESTS.length*100);$("progressDummy")?.remove()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderQuests(){const list=$("questList");list.innerHTML="";QUESTS.forEach(q=>{const done=state.done.includes(q.id),locked=q.unlock&&!state.done.includes(q.unlock);const el=document.createElement("div");el.className="quest"+(done?" done":"")+(locked?" locked":"");el.innerHTML=`<div class="questhead"><div class="icon">${q.icon}</div><div style="flex:1"><div class="tag">${q.realm} · ${q.skill}</div><h3>${q.title} ${done?"✓":""}</h3><p>${q.desc}</p><p class="small">Reward: ${q.xp} XP · ${q.shards} ✦</p></div></div><div class="actionrow"><button class="${done?"":"primary"}" ${locked||done?"disabled":""} data-quest="${q.id}">${done?"Quest cleared":locked?"Locked · clear previous quest":"Start quest"}</button></div>`;list.appendChild(el)});list.querySelectorAll("[data-quest]").forEach(b=>b.addEventListener("click",()=>openQuest(b.dataset.quest)))}
+function openQuest(id){const q=QUESTS.find(x=>x.id===id);if(!q)return;state.activeQuest=id;const panel=document.createElement("div");panel.className="panel";panel.id="activeQuestPanel";panel.innerHTML=`<div class="tag">${q.realm} · ${q.skill}</div><h2>${q.icon} ${q.title}</h2><p>${q.desc}</p><h3>${q.prompt}</h3>${q.code?`<div class="codebox">${escapeHtml(q.code)}</div>`:""}<div class="choices">${q.options.map((o,i)=>`<button data-answer="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(o)}</button>`).join("")}</div><div id="questFeedback" class="feedback"></div><div class="actionrow"><button id="closeQuest">Back to map</button></div>`;const old=$("activeQuestPanel");if(old)old.remove();$("questList").prepend(panel);panel.querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>answerQuest(q,Number(b.dataset.answer),panel)));$("closeQuest").onclick=()=>{panel.remove();state.activeQuest=null}}
+function answerQuest(q,answer,panel){const feedback=panel.querySelector("#questFeedback");if(state.done.includes(q.id)){feedback.textContent="Already cleared!";return}if(answer===q.answer){state.done.push(q.id);state.xp+=q.xp;state.shards+=q.shards;feedback.textContent="✓ "+q.success;feedback.className="feedback success";panel.querySelectorAll("[data-answer]").forEach(b=>b.disabled=true);save();setTimeout(()=>renderQuests(),900)}else{feedback.textContent="Not quite. Read the spellbook and try again.";feedback.className="feedback warning"}}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===b.dataset.screen));if(b.dataset.screen==="map")renderQuests()}));
+$("craft").onclick=()=>{if(state.shards<3){$("craftMsg").textContent="Not enough shards yet—clear more quests.";return}state.shards-=3;const name=["Spark Badge","Forest Warden Badge","Bug Hunter Badge","Dragon Tamer Badge","Agent Architect Badge"][state.badges.length%5];state.badges.push(name);$("craftMsg").textContent="Crafted: "+name+"!";save()};
+$("reset").onclick=()=>{if(confirm("Reset all progress? Export your save first if you want a backup.")){state={xp:0,shards:0,done:[],badges:[],activeQuest:null};save();renderQuests();$("craftMsg").textContent=""}};
+$("export").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="spellbound-save.json";a.click();URL.revokeObjectURL(a.href)};
+renderStats();renderQuests();
+if("serviceWorker" in navigator && location.protocol!=="file:"){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
+</script>
+</body>
+</html>

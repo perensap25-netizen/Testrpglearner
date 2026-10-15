@@ -1,0 +1,14 @@
+{
+  "name": "Spellbound: Codebound RPG",
+  "short_name": "Codebound RPG",
+  "description": "Learn Python through RPG quests, code spells, AI-agent puzzles, and safe cybersecurity lessons.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1022",
+  "theme_color": "#101329",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}
+  ]
+}
